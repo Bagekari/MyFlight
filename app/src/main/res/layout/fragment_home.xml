@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.HomeFragment">
+
+
+    <ImageView
+        android:id="@+id/imageViewHome"
+        android:layout_width="0dp"
+        android:layout_height="202dp"
+        android:background="@color/colorAccent"
+        android:src="@drawable/aero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvOneWay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="20dp"
+        android:text="ONE WAY"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/spinnerFrom"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewHome" />
+
+    <TextView
+        android:id="@+id/tvRoundTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="20dp"
+        android:text="ROUND TRIP"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tvOneWay"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewHome" />
+
+    <TextView
+        android:id="@+id/tvFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="24dp"
+        android:text="FROM"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerFrom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvOneWay" />
+
+    <TextView
+        android:id="@+id/tvTo"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="75dp"
+        android:text="TO"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDeparture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvFrom" />
+
+    <TextView
+        android:id="@+id/tvDeparture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="DEPARTURE"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTo" />
+
+    <TextView
+        android:id="@+id/tvReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RETURN"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/tvRetDate"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvRetDate" />
+
+    <TextView
+        android:id="@+id/tvDepDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:hint="Select Departure date"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tvDeparture"
+        app:layout_constraintTop_toBottomOf="@+id/tvDeparture" />
+
+    <TextView
+        android:id="@+id/tvRetDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_edittext_style"
+        android:hint="Select Return Date"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDepDate"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDepDate" />
+
+    <Button
+        android:id="@+id/searchBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="73dp"
+        android:background="@drawable/reg_btn_style"
+        android:text="SEARCH FLIGHTS"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/tvFrom"
+        app:layout_constraintTop_toBottomOf="@+id/tvOneWay" />
+
+    <Spinner
+        android:id="@+id/spinnerTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        app:layout_constraintStart_toStartOf="@+id/tvTo"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerFrom" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
