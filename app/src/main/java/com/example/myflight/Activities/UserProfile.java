@@ -1,13 +1,13 @@
 package com.example.myflight.Activities;
 
 public class UserProfile {
-    public String Email, Name;
+    private String Email, Name;
 
     public UserProfile() {
 
     }
 
-    public UserProfile(String userEmail, String userName) {
+    UserProfile(String userEmail, String userName) {
         this.Email = userEmail;
         this.Name = userName;
     }

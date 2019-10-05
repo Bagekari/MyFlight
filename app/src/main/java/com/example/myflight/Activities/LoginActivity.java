@@ -3,6 +3,7 @@ package com.example.myflight.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,12 +23,11 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email, password;
-    Button btnLogin;
-    TextView tvReg, tvInfo;
+    private Button btnLogin;
+    private TextView tvInfo;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
     private int counter = 5;
-    private FirebaseAuth mAuth;
 
 
     @Override
@@ -35,14 +35,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        email = findViewById(R.id.loginEmail);
-        password = findViewById(R.id.loginPassword);
-        btnLogin = findViewById(R.id.loginBtn);
-        tvReg = findViewById(R.id.textViewLogin);
-        tvInfo = findViewById(R.id.textViewWarning);
+        email = findViewById(R.id.etEmail);
+        password = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        TextView tvReg = findViewById(R.id.tvRegister);
+        tvInfo = findViewById(R.id.tvInfo);
         TextView forgotPassword = findViewById(R.id.tvForgotPassword);
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String message = getString(R.string.attempt_string);
         message += 5;
@@ -61,7 +61,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.setMessage("Logging In. Please wait...");
+                progressDialog.setTitle("Logging in");
+                progressDialog.setMessage("Please wait...");
+                progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.show();
 
                 String user_email = email.getText().toString();
@@ -102,9 +104,16 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
+
     private void checkEmailVerification() {
 //        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        boolean emailFlag = Objects.requireNonNull(firebaseUser).isEmailVerified();
+//        boolean emailFlag = firebaseUser.isEmailVerified();
 
         startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
 
