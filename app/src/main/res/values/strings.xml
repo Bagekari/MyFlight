@@ -29,4 +29,8 @@
     <string name="attempt_string">Number of attempts remaining:</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="change_password">CHANGE PASSWORD</string>
+    <string name="edit">EDIT</string>
+    <string name="_email">Email:</string>
+    <string name="name">Name:</string>
 </resources>
