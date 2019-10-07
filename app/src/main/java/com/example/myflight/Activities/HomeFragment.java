@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             public void onClick(View view) {
                 String source_country = spinnerFrom.getSelectedItem().toString();
                 String destination_country = spinnerTo.getSelectedItem().toString();
-                Intent intent = new Intent(Objects.requireNonNull(getActivity()), CardViewActivity.class);
+                Intent intent = new Intent(Objects.requireNonNull(getActivity()), RecyclerViewActivity.class);
                 intent.putExtra("Source", source_country);
                 intent.putExtra("Destination", destination_country);
                 startActivity(intent);
