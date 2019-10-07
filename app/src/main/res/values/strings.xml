@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyFlight</string>
+    <string name="app_name">My Flight</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -19,12 +19,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="Countries">
-        <item>WashingtonDC</item>
-        <item>NewYork</item>
+        <item>Washington DC</item>
+        <item>New York</item>
         <item>Toronto</item>
-        <item>SanAntonio</item>
+        <item>San Antonio</item>
         <item>Philadelphia</item>
-        <item>LongIsland</item>
+        <item>Long Island</item>
     </string-array>
     <string name="attempt_string">Number of attempts remaining:</string>
     <string name="email">Email</string>

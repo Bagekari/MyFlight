@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,14 +36,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UpdateProfile extends AppCompatActivity {
 
     private EditText newUserName, newUserEmail;
-    private Button save;
     private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
     private CircleImageView updateProfilePic;
     private static final int PICK_IMAGE = 1;
     Uri imageUri;
     private StorageReference storageReference;
-    private FirebaseStorage firebaseStorage;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -67,14 +63,14 @@ public class UpdateProfile extends AppCompatActivity {
 
         newUserName = findViewById(R.id.etNameUpdate);
         newUserEmail = findViewById(R.id.etEmailUpdate);
-        save = findViewById(R.id.btnSave);
+        Button save = findViewById(R.id.btnSave);
         updateProfilePic = findViewById(R.id.civProfileUpdate);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseStorage = FirebaseStorage.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
 
         final DatabaseReference databaseReference = firebaseDatabase.getReference("Users").child(firebaseAuth.getUid());
 
@@ -92,7 +88,7 @@ public class UpdateProfile extends AppCompatActivity {
             }
         });
 
-        final StorageReference storageReference = firebaseStorage.getReference();
+        storageReference = firebaseStorage.getReference();
         storageReference.child(firebaseAuth.getUid()).child("Images/Profile Pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

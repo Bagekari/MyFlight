@@ -199,7 +199,6 @@ public class RegisterActivity extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(RegisterActivity.this, "Upload Successful", Toast.LENGTH_SHORT).show();
             }
         });
         UserProfile userProfile = new UserProfile(email, name);

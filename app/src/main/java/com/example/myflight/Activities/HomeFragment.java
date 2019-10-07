@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myflight.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -31,6 +33,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private static final String TAG = "MainActivity";
     private TextView mDepDate, mRetDate, roundTrip, returnTextView, oneWayTextView;
     private DatePickerDialog.OnDateSetListener mDateDepListener, mDateRetListener;
+    private Spinner spinnerFrom, spinnerTo;
 
     @Nullable
     @Override
@@ -41,8 +44,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         roundTrip = view.findViewById(R.id.tvRoundTrip);
         returnTextView = view.findViewById(R.id.tvReturn);
         oneWayTextView = view.findViewById(R.id.tvOneWay);
-        Spinner spinnerFrom = view.findViewById(R.id.spinnerFrom);
-        Spinner spinnerTo = view.findViewById(R.id.spinnerTo);
+        spinnerFrom = view.findViewById(R.id.spinnerFrom);
+        spinnerTo = view.findViewById(R.id.spinnerTo);
         Button btnSearch = view.findViewById(R.id.searchBtn);
 
         ArrayAdapter<CharSequence> adapterFrom = ArrayAdapter.createFromResource(Objects.requireNonNull(getActivity()), R.array.Countries, android.R.layout.simple_spinner_item);
@@ -129,7 +132,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Objects.requireNonNull(getActivity()), CardViewActivity.class));
+                String source_country = spinnerFrom.getSelectedItem().toString();
+                String destination_country = spinnerTo.getSelectedItem().toString();
+                Intent intent = new Intent(Objects.requireNonNull(getActivity()), CardViewActivity.class);
+                intent.putExtra("Source", source_country);
+                intent.putExtra("Destination", destination_country);
+                startActivity(intent);
             }
         });
         return view;
