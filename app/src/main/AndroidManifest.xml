@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.UpdatePassword"></activity>
+        <activity android:name=".Activities.FlightDetailsActivity"></activity>
+        <activity android:name=".Activities.RecyclerViewActivity" />
+        <activity android:name=".Activities.UpdatePassword" />
         <activity android:name=".Activities.UpdateProfile" />
-        <activity android:name=".Activities.CardViewActivity" />
         <activity android:name=".Activities.PasswordActivity" />
         <activity
             android:name=".Activities.NavigationDrawerActivity"
