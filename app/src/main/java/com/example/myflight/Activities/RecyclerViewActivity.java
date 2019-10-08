@@ -6,8 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +24,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class RecyclerViewActivity extends AppCompatActivity {
+public class RecyclerViewActivity extends AppCompatActivity implements FlightAdapter.OnItemClickListener {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private FlightAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog progressDialog;
     private DatabaseReference databaseReference;
     private String s, d;
+    ArrayList<FlightItem> flightList;
+    private static final String TAG = "RecyclerViewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<FlightItem> flightList = new ArrayList<>();
+                flightList = new ArrayList<>();
                 flightList.add(new FlightItem(dataSnapshot.child("Air Berlin").child("Price").getValue().toString(),
                         s + " : " + dataSnapshot.child("Air Berlin").child("Departure Time").getValue().toString(),
                         d + " : " + dataSnapshot.child("Air Berlin").child("Arrival Time").getValue().toString(),
@@ -62,7 +68,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 mRecyclerView = findViewById(R.id.recyclerView);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(RecyclerViewActivity.this);
-                mAdapter = new FlightAdapter(flightList);
+                mAdapter = new FlightAdapter(flightList, RecyclerViewActivity.this);
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
@@ -82,5 +88,13 @@ public class RecyclerViewActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Log.d(TAG, "onItemClick: clicked");
+        Intent intent = new Intent(RecyclerViewActivity.this, FlightDetailsActivity.class);
+        intent.putExtra("Flight Item", flightList.get(position));
+        startActivity(intent);
     }
 }
