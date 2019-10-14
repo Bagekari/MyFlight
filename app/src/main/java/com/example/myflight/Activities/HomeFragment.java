@@ -16,14 +16,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myflight.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -34,6 +33,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private TextView mDepDate, mRetDate, roundTrip, returnTextView, oneWayTextView;
     private DatePickerDialog.OnDateSetListener mDateDepListener, mDateRetListener;
     private Spinner spinnerFrom, spinnerTo;
+    private boolean flag;
 
     @Nullable
     @Override
@@ -116,6 +116,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 returnTextView.setVisibility(View.GONE);
                 oneWayTextView.setTextColor(Color.BLUE);
                 roundTrip.setTextColor(colors);
+                flag = false;
             }
         });
 
@@ -126,6 +127,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 returnTextView.setVisibility(View.VISIBLE);
                 roundTrip.setTextColor(Color.BLUE);
                 oneWayTextView.setTextColor(colors);
+                flag = true;
             }
         });
 
@@ -134,10 +136,34 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             public void onClick(View view) {
                 String source_country = spinnerFrom.getSelectedItem().toString();
                 String destination_country = spinnerTo.getSelectedItem().toString();
-                Intent intent = new Intent(Objects.requireNonNull(getActivity()), RecyclerViewActivity.class);
-                intent.putExtra("Source", source_country);
-                intent.putExtra("Destination", destination_country);
-                startActivity(intent);
+                String text = mDepDate.getText().toString().trim();
+                if (source_country.equals(destination_country))
+                    Toast.makeText(getActivity(), "Please enter a valid source and destination", Toast.LENGTH_SHORT).show();
+                else {
+                    if (text.isEmpty())
+                        Toast.makeText(getActivity(), "Please enter the departure date", Toast.LENGTH_SHORT).show();
+                    else {
+                        if (flag) {
+                            String string = mRetDate.getText().toString().trim();
+                            if (string.isEmpty())
+                                Toast.makeText(getActivity(), "Please enter the return date", Toast.LENGTH_SHORT).show();
+                            else {
+                                Intent intent = new Intent(Objects.requireNonNull(getActivity()), DepartureRecyclerActivity.class);
+                                intent.putExtra("Source", source_country);
+                                intent.putExtra("Destination", destination_country);
+                                intent.putExtra("Departure Date", mDepDate.getText().toString());
+                                intent.putExtra("Return Date", mRetDate.getText().toString());
+                                startActivity(intent);
+                            }
+                        } else {
+                            Intent intent = new Intent(Objects.requireNonNull(getActivity()), RecyclerViewActivity.class);
+                            intent.putExtra("Source", source_country);
+                            intent.putExtra("Destination", destination_country);
+                            intent.putExtra("Departure Date", mDepDate.getText().toString());
+                            startActivity(intent);
+                        }
+                    }
+                }
             }
         });
         return view;

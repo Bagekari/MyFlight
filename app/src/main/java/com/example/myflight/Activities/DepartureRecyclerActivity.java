@@ -8,11 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myflight.R;
@@ -24,23 +21,24 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class RecyclerViewActivity extends AppCompatActivity implements FlightAdapter.OnItemClickListener {
+public class DepartureRecyclerActivity extends AppCompatActivity implements FlightDepAdapter.OnItemClickListener{
+
     private RecyclerView mRecyclerView;
-    private FlightAdapter mAdapter;
+    private FlightDepAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog progressDialog;
     private DatabaseReference databaseReference;
     private String s, d;
     ArrayList<FlightItem> flightList;
-    private static final String TAG = "RecyclerViewActivity";
+    private static final String TAG = "DepartureRecyclerAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_departure_recycler);
         progressDialog = new ProgressDialog(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        progressDialog.setTitle("Searching");
+        progressDialog.setTitle("Searching Departure Flights");
         progressDialog.setMessage("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -65,10 +63,10 @@ public class RecyclerViewActivity extends AppCompatActivity implements FlightAda
                         s + " : " + dataSnapshot.child("Turkish Airlines").child("Departure Time").getValue().toString(),
                         d + " : " + dataSnapshot.child("Turkish Airlines").child("Arrival Time").getValue().toString(),
                         "Turkish Airlines"));
-                mRecyclerView = findViewById(R.id.recyclerView);
+                mRecyclerView = findViewById(R.id.recyclerViewDep);
                 mRecyclerView.setHasFixedSize(true);
-                mLayoutManager = new LinearLayoutManager(RecyclerViewActivity.this);
-                mAdapter = new FlightAdapter(flightList, RecyclerViewActivity.this);
+                mLayoutManager = new LinearLayoutManager(DepartureRecyclerActivity.this);
+                mAdapter = new FlightDepAdapter(flightList, DepartureRecyclerActivity.this);
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
@@ -78,7 +76,7 @@ public class RecyclerViewActivity extends AppCompatActivity implements FlightAda
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressDialog.hide();
-                Toast.makeText(RecyclerViewActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DepartureRecyclerActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -93,12 +91,12 @@ public class RecyclerViewActivity extends AppCompatActivity implements FlightAda
     @Override
     public void onItemClick(int position) {
         Log.d(TAG, "onItemClick: clicked");
-        Intent intent = new Intent(RecyclerViewActivity.this, FlightDetailsActivity.class);
-        intent.putExtra("Flag", false);
+        Intent intent = new Intent(DepartureRecyclerActivity.this, ReturnRecyclerActivity.class);
         intent.putExtra("Flight Item", flightList.get(position));
         intent.putExtra("Source", s);
         intent.putExtra("Destination", d);
         intent.putExtra("Departure Date", getIntent().getExtras().getString("Departure Date"));
+        intent.putExtra("Return Date", getIntent().getExtras().getString("Return Date"));
         startActivity(intent);
     }
 }

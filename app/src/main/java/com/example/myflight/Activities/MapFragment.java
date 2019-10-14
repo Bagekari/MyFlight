@@ -53,7 +53,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(getActivity(), "Map Ready!", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Countries");
