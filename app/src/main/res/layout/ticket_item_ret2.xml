@@ -35,26 +35,26 @@
             android:layout_alignParentEnd="true"/>
 
         <TextView
-            android:id="@+id/tvDepDisplay_circle2"
+            android:id="@+id/tvRetDisplay_circle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Washington DC : 19:20"
+            android:textSize="18sp"
+            android:layout_below="@+id/tvPrice_circle2"
+            android:paddingLeft="16dp"
+            android:paddingTop="20dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tvDepDisplay_circle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Washington DC : 16:10"
             android:textSize="18sp"
             android:layout_below="@+id/tvRetDisplay_circle2"
             android:paddingLeft="16dp"
             android:paddingTop="8dp"
             android:paddingBottom="25dp"
-            android:layout_marginStart="8dp"/>
-
-        <TextView
-            android:id="@+id/tvRetDisplay_circle2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Washington DC : 16:10"
-            android:textSize="18sp"
-            android:layout_below="@+id/tvPrice_circle2"
-            android:paddingLeft="16dp"
-            android:paddingTop="20dp"
             android:layout_marginStart="8dp"/>
 
         <ImageView

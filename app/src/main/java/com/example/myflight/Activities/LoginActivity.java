@@ -91,7 +91,10 @@ public class LoginActivity extends AppCompatActivity {
         tvReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
             }
         });
@@ -99,7 +102,10 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, PasswordActivity.class));
+                Intent intent = new Intent(LoginActivity.this, PasswordActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
             }
         });
@@ -116,9 +122,11 @@ public class LoginActivity extends AppCompatActivity {
     private void checkEmailVerification() {
 //        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 //        boolean emailFlag = firebaseUser.isEmailVerified();
-
-        startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
-
+        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
 //        if (emailFlag) {
 //            finish();
 //            startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));

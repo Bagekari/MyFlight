@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.myflight.R;
@@ -23,13 +24,14 @@ public class FlightDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.d(TAG, "onCreate: called");
         Intent intent = getIntent();
-        FlightItem flightItem = intent.getParcelableExtra("Flight Item");
-        String priceRes = flightItem.getTextPrice();
-        String airlineRes = flightItem.getTextAirline();
-        String source = getIntent().getExtras().getString("Source");
-        String destination = getIntent().getExtras().getString("Destination");
+        final FlightItem depFlightItem = intent.getParcelableExtra("Flight Item Departure");
+        final FlightItem retFlightItem = intent.getParcelableExtra("Flight Item Return");;
+        String priceRes = depFlightItem.getTextPrice();
+        String airlineRes = depFlightItem.getTextAirline();
+        final String source = getIntent().getExtras().getString("Source");
+        final String destination = getIntent().getExtras().getString("Destination");
         String departureDate = getIntent().getExtras().getString("Departure Date");
-        boolean flag = getIntent().getExtras().getBoolean("Flag");
+        final boolean flag = getIntent().getExtras().getBoolean("Flag");
 
         TextView tvPriceRes = findViewById(R.id.tvPriceDetails);
         tvPriceRes.setText(priceRes);
@@ -41,6 +43,7 @@ public class FlightDetailsActivity extends AppCompatActivity {
         tvDestination.setText(destination);
         TextView tvDepartureDate = findViewById(R.id.tvDepDateDetails);
         tvDepartureDate.setText(departureDate);
+        Button pay_btn = findViewById(R.id.btnPayment);
 
         if (flag) {
             findViewById(R.id.tvRetFlightInfo).setVisibility(View.VISIBLE);
@@ -50,6 +53,7 @@ public class FlightDetailsActivity extends AppCompatActivity {
             findViewById(R.id.textView20).setVisibility(View.VISIBLE);
             findViewById(R.id.textView21).setVisibility(View.VISIBLE);
             findViewById(R.id.textView22).setVisibility(View.VISIBLE);
+            findViewById(R.id.textView8).setVisibility(View.VISIBLE);
             findViewById(R.id.tvRetFlightDuration).setVisibility(View.VISIBLE);
             findViewById(R.id.tvRetFlightTime).setVisibility(View.VISIBLE);
             String returnDate = getIntent().getExtras().getString("Return Date");
@@ -65,7 +69,23 @@ public class FlightDetailsActivity extends AppCompatActivity {
             tvRetDateRes.setVisibility(View.VISIBLE);
             tvRetDateRes.setText(returnDate);
             tvRetPriceRes.setText(priceRes);
+            TextView tvRetAirlinesNameRes = findViewById(R.id.tvRetAirlinesName);
+            tvRetAirlinesNameRes.setVisibility(View.VISIBLE);
+            tvRetAirlinesNameRes.setText(retFlightItem.getTextAirline());
         }
+
+        pay_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(FlightDetailsActivity.this, CreditCardActivity.class);
+                intent1.putExtra("Flight Item Departure", depFlightItem);
+                intent1.putExtra("Flight Item Return", retFlightItem);
+                intent1.putExtra("Source", source);
+                intent1.putExtra("Destination", destination);
+                intent1.putExtra("Flag", flag);
+                startActivity(intent1);
+            }
+        });
     }
 
     @Override

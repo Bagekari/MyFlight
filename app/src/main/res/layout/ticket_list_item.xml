@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp"
+    android:layout_marginTop="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <TextView
+            android:id="@+id/infoDepDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Departure"
+            android:paddingStart="150dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_orange_dark"/>
+
+        <TextView
+            android:id="@+id/tlDepPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:textSize="18sp"
+            android:layout_below="@+id/infoDepDisplay"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tlDepAirline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Turkish Airlines"
+            android:textSize="18sp"
+            android:layout_below="@+id/tlDepPrice"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tlDepSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Washington DC : 19:20"
+            android:textSize="18sp"
+            android:layout_below="@+id/tlDepAirline"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tlDepDestination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Washington DC : 16:10"
+            android:textSize="18sp"
+            android:layout_below="@+id/tlDepSource"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="8dp"/>
+
+        <ImageView
+            android:id="@+id/tlImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/infoDepDisplay"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="19dp"
+            android:padding="2dp"
+            android:src="@drawable/round_trip"/>
+
+        <TextView
+            android:id="@+id/infoRetDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Return"
+            android:paddingStart="150dp"
+            android:textSize="20sp"
+            android:layout_below="@+id/tlDepDestination"
+            android:textColor="@android:color/holo_orange_dark"/>
+
+        <TextView
+            android:id="@+id/tlRetPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:textSize="18sp"
+            android:layout_below="@+id/infoRetDisplay"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tlRetAirline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Turkish Airlines"
+            android:textSize="18sp"
+            android:layout_below="@+id/tlRetPrice"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tlRetSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Washington DC : 19:20"
+            android:textSize="18sp"
+            android:layout_below="@+id/tlRetAirline"
+            android:paddingTop="8dp"
+            android:paddingLeft="16dp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/tlRetDestination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Washington DC : 16:10"
+            android:textSize="18sp"
+            android:layout_below="@+id/tlRetSource"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="8dp"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

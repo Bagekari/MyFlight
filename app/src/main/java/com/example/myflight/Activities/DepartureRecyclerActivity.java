@@ -50,19 +50,15 @@ public class DepartureRecyclerActivity extends AppCompatActivity implements Flig
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> list = new ArrayList<>();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren())
+                    list.add(dataSnapshot1.getKey());
                 flightList = new ArrayList<>();
-                flightList.add(new FlightItem(dataSnapshot.child("Air Berlin").child("Price").getValue().toString(),
-                        s + " : " + dataSnapshot.child("Air Berlin").child("Departure Time").getValue().toString(),
-                        d + " : " + dataSnapshot.child("Air Berlin").child("Arrival Time").getValue().toString(),
-                        "Air Berlin"));
-                flightList.add(new FlightItem(dataSnapshot.child("Air Russia").child("Price").getValue().toString(),
-                        s + " : " + dataSnapshot.child("Air Russia").child("Departure Time").getValue().toString(),
-                        d + " : " + dataSnapshot.child("Air Russia").child("Arrival Time").getValue().toString(),
-                        "Air Russia"));
-                flightList.add(new FlightItem(dataSnapshot.child("Turkish Airlines").child("Price").getValue().toString(),
-                        s + " : " + dataSnapshot.child("Turkish Airlines").child("Departure Time").getValue().toString(),
-                        d + " : " + dataSnapshot.child("Turkish Airlines").child("Arrival Time").getValue().toString(),
-                        "Turkish Airlines"));
+                for (int i = 0; i < list.size(); i++)
+                    flightList.add(new FlightItem(dataSnapshot.child(list.get(i)).child("Price").getValue().toString(),
+                            s + " : " + dataSnapshot.child(list.get(i)).child("Departure Time").getValue().toString(),
+                            d + " : " + dataSnapshot.child(list.get(i)).child("Arrival Time").getValue().toString(),
+                            list.get(i)));
                 mRecyclerView = findViewById(R.id.recyclerViewDep);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(DepartureRecyclerActivity.this);

@@ -10,20 +10,13 @@
 
     <ImageView
         android:layout_width="94dp"
-        android:layout_height="92dp"
-        android:background="@drawable/ic_launcher_background"
-        android:foreground="@drawable/ic_launcher_foreground" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="My Flight"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:layout_height="94dp"
+        android:background="@drawable/userphoto" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="29dp"
-        android:text="info@myflight.com" />
+        android:text="info@myflight.com"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
 </LinearLayout>
