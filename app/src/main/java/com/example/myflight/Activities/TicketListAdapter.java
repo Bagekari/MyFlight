@@ -3,6 +3,7 @@ package com.example.myflight.Activities;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,14 +15,21 @@ import com.example.myflight.R;
 import java.util.ArrayList;
 
 public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.TicketListViewHolder> {
-    private ArrayList<TicketListItem> mticketListItems;
+    private ArrayList<TicketListItem> mTicketListItems;
+    private OnItemClickListener mOnItemClickListener;
 
-    public static class TicketListViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onDeleteClick(int position);
+    }
+
+    public static class TicketListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView mImageView;
         public TextView mTextViewDepPrice, mTextViewDepAirline, mTextViewDepSource, mTextViewDepDestination;
         public TextView mTextViewRetPrice, mTextViewRetAirline, mTextViewRetSource, mTextViewRetDestination, mTextViewRetInfo;
+        public TextView mDeleteText;
+        OnItemClickListener onItemClickListener;
 
-        public TicketListViewHolder(@NonNull View itemView) {
+        public TicketListViewHolder(@NonNull View itemView, final OnItemClickListener onItemClickListener) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.tlImageView);
             mTextViewDepPrice = itemView.findViewById(R.id.tlDepPrice);
@@ -33,23 +41,45 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
             mTextViewRetSource = itemView.findViewById(R.id.tlRetSource);
             mTextViewRetDestination = itemView.findViewById(R.id.tlRetDestination);
             mTextViewRetInfo = itemView.findViewById(R.id.infoRetDisplay);
+            mDeleteText = itemView.findViewById(R.id.text_delete);
+            this.onItemClickListener = onItemClickListener;
+
+            itemView.setOnClickListener(this);
+
+            mDeleteText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickListener.onDeleteClick(position);
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onClick(View view) {
+            onItemClickListener.onDeleteClick(getAdapterPosition());
         }
     }
 
-    public TicketListAdapter(ArrayList<TicketListItem> ticketListItems) {
-        mticketListItems = ticketListItems;
+    public TicketListAdapter(ArrayList<TicketListItem> ticketListItems, OnItemClickListener onItemClickListener) {
+        mTicketListItems = ticketListItems;
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
     public TicketListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_list_item, parent, false);
-        return new TicketListViewHolder(v);
+        return new TicketListViewHolder(v, mOnItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TicketListViewHolder holder, int position) {
-        TicketListItem currentItem = mticketListItems.get(position);
+        TicketListItem currentItem = mTicketListItems.get(position);
 
         holder.mImageView.setImageResource(currentItem.getImageResource());
         holder.mTextViewDepPrice.setText(currentItem.getDepListPrice());
@@ -79,6 +109,6 @@ public class TicketListAdapter extends RecyclerView.Adapter<TicketListAdapter.Ti
 
     @Override
     public int getItemCount() {
-        return mticketListItems.size();
+        return mTicketListItems.size();
     }
 }

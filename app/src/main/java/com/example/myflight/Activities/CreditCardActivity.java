@@ -56,7 +56,7 @@ public class CreditCardActivity extends AppCompatActivity {
                             Toast.makeText(CreditCardActivity.this, "Thank you for purchase, you can view the ticket in Ticket List", Toast.LENGTH_LONG).show();
                             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                             DatabaseReference myRefDep = firebaseDatabase.getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
-                            DatabaseReference myRefRet = firebaseDatabase.getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
+                            String key = myRefDep.getKey();
                             FlightItem depFlightItem = getIntent().getParcelableExtra("Flight Item Departure");
                             FlightItem retFlightItem = getIntent().getParcelableExtra("Flight Item Return");
                             String source = getIntent().getExtras().getString("Source");
@@ -71,7 +71,7 @@ public class CreditCardActivity extends AppCompatActivity {
                                         destination,
                                         source,
                                         retFlightItem.getTextAirline());
-                                myRefRet.setValue(ticketListItem);
+                                myRefDep.setValue(ticketListItem);
                             }
                             else {
                                 TicketListItem ticketListItem = new TicketListItem(R.drawable.ic_home,

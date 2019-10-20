@@ -14,9 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.CreditCardActivity"/>
-        <activity android:name=".Activities.ReturnRecyclerActivity" />
-        <activity android:name=".Activities.DepartureRecyclerActivity" />
+        <activity
+            android:name=".Activities.CreditCardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ReturnRecyclerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.DepartureRecyclerActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -27,17 +33,33 @@
 
         <activity
             android:name=".Activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".Activities.FlightDetailsActivity" />
-        <activity android:name=".Activities.RecyclerViewActivity" />
-        <activity android:name=".Activities.UpdatePassword" />
-        <activity android:name=".Activities.UpdateProfile" />
-        <activity android:name=".Activities.PasswordActivity" />
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.FlightDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.RecyclerViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.UpdatePassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.UpdateProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.PasswordActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.NavigationDrawerActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.RegisterActivity">
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -78,6 +78,18 @@
             android:src="@drawable/round_trip"/>
 
         <TextView
+            android:id="@+id/text_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"
+            android:layout_below="@+id/tlDepSource"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="20sp"
+            android:paddingTop="6dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"/>
+
+        <TextView
             android:id="@+id/infoRetDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

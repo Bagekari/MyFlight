@@ -1,6 +1,7 @@
 package com.example.myflight.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class TicketListFragment extends Fragment {
+public class TicketListFragment extends Fragment implements TicketListAdapter.OnItemClickListener {
     private RecyclerView mRecyclerView;
     private TicketListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -41,7 +42,6 @@ public class TicketListFragment extends Fragment {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-
         databaseReference = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,7 +78,7 @@ public class TicketListFragment extends Fragment {
                 mRecyclerView = view.findViewById(R.id.rvTicketList);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(getActivity());
-                mAdapter = new TicketListAdapter(ticketList);
+                mAdapter = new TicketListAdapter(ticketList, TicketListFragment.this);
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
@@ -92,5 +92,11 @@ public class TicketListFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        ticketList.remove(position);
+        mAdapter.notifyItemRemoved(position);
     }
 }
