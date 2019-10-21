@@ -29,7 +29,6 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     private TicketListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog progressDialog;
-    private DatabaseReference databaseReference;
     ArrayList<TicketListItem> ticketList;
     private static final String TAG = "TicketListFragment";
 
@@ -42,7 +41,7 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
         progressDialog.setMessage("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,5 +97,7 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     public void onDeleteClick(int position) {
         ticketList.remove(position);
         mAdapter.notifyItemRemoved(position);
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(CreditCardActivity.key);
+        databaseReference1.removeValue();
     }
 }

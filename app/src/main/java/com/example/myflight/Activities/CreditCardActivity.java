@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class CreditCardActivity extends AppCompatActivity {
-
+    public static String key;
     CardForm cardForm;
     Button buy;
     AlertDialog.Builder alertBuilder;
@@ -56,7 +56,7 @@ public class CreditCardActivity extends AppCompatActivity {
                             Toast.makeText(CreditCardActivity.this, "Thank you for purchase, you can view the ticket in Ticket List", Toast.LENGTH_LONG).show();
                             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                             DatabaseReference myRefDep = firebaseDatabase.getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
-                            String key = myRefDep.getKey();
+                            key = myRefDep.getKey();
                             FlightItem depFlightItem = getIntent().getParcelableExtra("Flight Item Departure");
                             FlightItem retFlightItem = getIntent().getParcelableExtra("Flight Item Return");
                             String source = getIntent().getExtras().getString("Source");
