@@ -97,7 +97,7 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     public void onDeleteClick(int position) {
         ticketList.remove(position);
         mAdapter.notifyItemRemoved(position);
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(CreditCardActivity.key);
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(CreditCardActivity.key.get(position));
         databaseReference1.removeValue();
     }
 }
