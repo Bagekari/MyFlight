@@ -1,6 +1,8 @@
 package com.example.myflight.Activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +33,8 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog progressDialog;
     ArrayList<TicketListItem> ticketList;
+    private int p;
+    AlertDialog.Builder builder;
     private static final String TAG = "TicketListFragment";
 
     @Nullable
@@ -95,24 +99,41 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     }
 
     @Override
-    public void onDeleteClick(final int position) {
-        ticketList.remove(position);
-        mAdapter.notifyItemRemoved(position);
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseReference1.addValueEventListener(new ValueEventListener() {
+    public void onDeleteClick(int position) {
+        p = position;
+        builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Confirm delete");
+        builder.setMessage("Are you sure you want to delete this ticket?");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<DataSnapshot> list = new ArrayList<>();
-                for (DataSnapshot d : dataSnapshot.getChildren())
-                    list.add(d);
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(list.get(position).getKey());
-                db.removeValue();
-            }
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                ticketList.remove(p);
+                mAdapter.notifyItemRemoved(p);
+                final DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                databaseReference1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<DataSnapshot> list = new ArrayList<>();
+                        for (DataSnapshot d : dataSnapshot.getChildren())
+                            list.add(d);
+                        databaseReference1.child(list.get(p).getKey()).removeValue();
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
