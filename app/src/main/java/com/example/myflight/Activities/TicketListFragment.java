@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TicketListFragment extends Fragment implements TicketListAdapter.OnItemClickListener {
     private RecyclerView mRecyclerView;
@@ -94,10 +95,24 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     }
 
     @Override
-    public void onDeleteClick(int position) {
+    public void onDeleteClick(final int position) {
         ticketList.remove(position);
         mAdapter.notifyItemRemoved(position);
-        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(CreditCardActivity.key.get(position));
-        databaseReference1.removeValue();
+        DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<DataSnapshot> list = new ArrayList<>();
+                for (DataSnapshot d : dataSnapshot.getChildren())
+                    list.add(d);
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(list.get(position).getKey());
+                db.removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
