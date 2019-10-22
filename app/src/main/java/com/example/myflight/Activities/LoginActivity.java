@@ -68,23 +68,29 @@ public class LoginActivity extends AppCompatActivity {
 
                 String user_email = email.getText().toString();
                 String user_password = password.getText().toString();
-                firebaseAuth.signInWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            checkEmailVerification();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                            counter--;
-                            String message = getString(R.string.attempt_string);
-                            message += counter;
-                            tvInfo.setText(message);
-                            if (counter == 0)
-                                btnLogin.setEnabled(false);
+                if (user_email.isEmpty() || user_password.isEmpty()) {
+                    progressDialog.hide();
+                    Toast.makeText(LoginActivity.this, "Please enter all the details", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    firebaseAuth.signInWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful()) {
+                                checkEmailVerification();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                counter--;
+                                String message = getString(R.string.attempt_string);
+                                message += counter;
+                                tvInfo.setText(message);
+                                if (counter == 0)
+                                    btnLogin.setEnabled(false);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 
