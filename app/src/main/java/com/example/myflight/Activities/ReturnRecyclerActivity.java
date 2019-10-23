@@ -96,5 +96,6 @@ public class ReturnRecyclerActivity extends AppCompatActivity implements FlightR
         intent.putExtra("Departure Date", getIntent().getExtras().getString("Departure Date"));
         intent.putExtra("Return Date", getIntent().getExtras().getString("Return Date"));
         startActivity(intent);
+        finish();
     }
 }

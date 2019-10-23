@@ -94,5 +94,6 @@ public class DepartureRecyclerActivity extends AppCompatActivity implements Flig
         intent.putExtra("Departure Date", getIntent().getExtras().getString("Departure Date"));
         intent.putExtra("Return Date", getIntent().getExtras().getString("Return Date"));
         startActivity(intent);
+        finish();
     }
 }

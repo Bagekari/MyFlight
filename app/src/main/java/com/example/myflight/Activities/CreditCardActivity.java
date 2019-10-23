@@ -87,7 +87,6 @@ public class CreditCardActivity extends AppCompatActivity {
                                 myRefDep.setValue(ticketListItem);
                             }
                             finish();
-//                            startActivity(new Intent(CreditCardActivity.this, TicketListFragment.class));
                         }
                     });
                     alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

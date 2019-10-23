@@ -96,5 +96,6 @@ public class RecyclerViewActivity extends AppCompatActivity implements FlightAda
         intent.putExtra("Destination", d);
         intent.putExtra("Departure Date", getIntent().getExtras().getString("Departure Date"));
         startActivity(intent);
+        finish();
     }
 }

@@ -3,7 +3,6 @@ package com.example.myflight.Activities;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class TicketListFragment extends Fragment implements TicketListAdapter.OnItemClickListener {
@@ -32,17 +32,17 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     private TicketListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog progressDialog;
-    ArrayList<TicketListItem> ticketList;
+    private ArrayList<DataSnapshot> list = new ArrayList<>();
+    private ArrayList<TicketListItem> ticketList;
     private int p;
-    AlertDialog.Builder builder;
-    private static final String TAG = "TicketListFragment";
+    private DatabaseReference reference;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_ticket_list, container, false);
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setTitle("Fetching your flights");
+        progressDialog.setTitle("Fetching your booked tickets");
         progressDialog.setMessage("Please wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -51,32 +51,36 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ticketList = new ArrayList<>();
-                if (dataSnapshot.getValue() == null)
-                    Toast.makeText(getActivity(), "You have not booked any tickets yet", Toast.LENGTH_LONG).show();
-                else {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        if (dataSnapshot1.child("retListPrice").getValue() == null && dataSnapshot.child("retListDep").getValue() == null && dataSnapshot1.child("retListRet").getValue() == null && dataSnapshot1.child("retListAirline").getValue() == null)
-                            ticketList.add(new TicketListItem(Integer.parseInt(dataSnapshot1.child("imageResource").getValue().toString()),
-                                    dataSnapshot1.child("depListPrice").getValue().toString(),
-                                    dataSnapshot1.child("depListDep").getValue().toString(),
-                                    dataSnapshot1.child("depListRet").getValue().toString(),
-                                    dataSnapshot1.child("depListAirline").getValue().toString(),
-                                    null,
-                                    null,
-                                    null,
-                                    null));
-                        else {
-                            ticketList.add(new TicketListItem(Integer.parseInt(dataSnapshot1.child("imageResource").getValue().toString()),
-                                    dataSnapshot1.child("depListPrice").getValue().toString(),
-                                    dataSnapshot1.child("depListDep").getValue().toString(),
-                                    dataSnapshot1.child("depListRet").getValue().toString(),
-                                    dataSnapshot1.child("depListAirline").getValue().toString(),
-                                    dataSnapshot1.child("retListPrice").getValue().toString(),
-                                    dataSnapshot1.child("retListDep").getValue().toString(),
-                                    dataSnapshot1.child("retListRet").getValue().toString(),
-                                    dataSnapshot1.child("retListAirline").getValue().toString()));
+                try {
+                    if (!dataSnapshot.hasChildren())
+                        Toast.makeText(getActivity(), "You have not booked any tickets yet", Toast.LENGTH_LONG).show();
+                    else {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            if (dataSnapshot1.child("retListPrice").getValue() == null && dataSnapshot.child("retListDep").getValue() == null && dataSnapshot1.child("retListRet").getValue() == null && dataSnapshot1.child("retListAirline").getValue() == null)
+                                ticketList.add(new TicketListItem(Integer.parseInt(dataSnapshot1.child("imageResource").getValue().toString()),
+                                        dataSnapshot1.child("depListPrice").getValue().toString(),
+                                        dataSnapshot1.child("depListDep").getValue().toString(),
+                                        dataSnapshot1.child("depListRet").getValue().toString(),
+                                        dataSnapshot1.child("depListAirline").getValue().toString(),
+                                        null,
+                                        null,
+                                        null,
+                                        null));
+                            else {
+                                ticketList.add(new TicketListItem(Integer.parseInt(dataSnapshot1.child("imageResource").getValue().toString()),
+                                        dataSnapshot1.child("depListPrice").getValue().toString(),
+                                        dataSnapshot1.child("depListDep").getValue().toString(),
+                                        dataSnapshot1.child("depListRet").getValue().toString(),
+                                        dataSnapshot1.child("depListAirline").getValue().toString(),
+                                        dataSnapshot1.child("retListPrice").getValue().toString(),
+                                        dataSnapshot1.child("retListDep").getValue().toString(),
+                                        dataSnapshot1.child("retListRet").getValue().toString(),
+                                        dataSnapshot1.child("retListAirline").getValue().toString()));
+                            }
                         }
                     }
+                } catch (NullPointerException e) {
+//                    Toast.makeText(getActivity(), "You deleted the last ticket", Toast.LENGTH_LONG).show();
                 }
 
                 mRecyclerView = view.findViewById(R.id.rvTicketList);
@@ -101,7 +105,7 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
     @Override
     public void onDeleteClick(int position) {
         p = position;
-        builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Confirm delete");
         builder.setMessage("Are you sure you want to delete this ticket?");
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -110,14 +114,20 @@ public class TicketListFragment extends Fragment implements TicketListAdapter.On
                 dialogInterface.dismiss();
                 ticketList.remove(p);
                 mAdapter.notifyItemRemoved(p);
-                final DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                DatabaseReference databaseReference1 = FirebaseDatabase.getInstance().getReference("Booked Flights").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                reference = databaseReference1;
+                list.clear();
                 databaseReference1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<DataSnapshot> list = new ArrayList<>();
-                        for (DataSnapshot d : dataSnapshot.getChildren())
-                            list.add(d);
-                        databaseReference1.child(list.get(p).getKey()).removeValue();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            list.add(snapshot);
+                        }
+                        reference.child(list.get(p).getKey()).removeValue();
+                        if (list.size() == 1)
+                            Toast.makeText(getActivity(), "You cancelled your last ticket", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getActivity(), "Ticket cancelled successfully", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
